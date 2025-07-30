@@ -10,6 +10,8 @@
             <th>Pezzi</th>
             <th>Peso</th>
             <th>Prezzo</th>
+            <th>Active</th>
+            <th>Data</th>
         </tr>
     </thead>
     <tbody>
@@ -19,7 +21,9 @@
             <td>{{ articolo.um }}</td>
             <td>{{ articolo.pzcart }}</td>
             <td>{{ articolo.peso }}</td>
-            <td>{{ articolo.prezzo }}</td>
+            <td>{{ articolo.prezzo | currency: 'EUR'}}</td>
+            <td>{{ articolo.active }}</td>
+            <td>{{ articolo.data | date:'dd/MM/yyyy' }}</td>
         </tr>
     </tbody>
 </table>
