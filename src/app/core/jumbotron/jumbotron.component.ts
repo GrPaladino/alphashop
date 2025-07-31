@@ -1,21 +1,17 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-jumbotron',
   templateUrl: './jumbotron.component.html',
-  styleUrls: ['./jumbotron.component.css'],
+  styleUrls: ['./jumbotron.component.css']
 })
-export class JumbotronComponent implements OnInit {
-  @Input()
-  Titolo: string = '';
+export class JumbotronComponent {
 
   @Input()
-  SottoTitolo: string = '';
-
+  Titolo: string = "";
+  @Input()
+  SottoTitolo: string = "";
   @Input()
   Show: boolean = true;
 
-  constructor() {}
-
-  ngOnInit(): void {}
 }

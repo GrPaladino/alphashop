@@ -1,30 +1,28 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { WelcomeComponent } from './welcome/welcome.component';
-import { LoginComponent } from './login/login.component';
-import { FormsModule } from '@angular/forms';
-import { ErrorComponent } from './error/error.component';
-import { ArticoliComponent } from './articoli/articoli.component';
+import { AppRoutingModule } from './app-routing.module';
+import { ArticoliModule } from './modules/articoli/articoli.module';
+import { BrowserModule } from '@angular/platform-browser';
 import { CoreModule } from './core/core.module';
-import { LogoutComponent } from './logout/logout.component';
+import { ErrorsModule } from './modules/errors/errors.module';
+import { FormsModule } from '@angular/forms';
+import { HomeModule } from './modules/home/home.module';
+import { LoginModule } from './modules/login/login.module';
+import { LogoutModule } from './modules/logout/logout.module';
+import { NgModule } from '@angular/core';
 
 @NgModule({
   declarations: [
     AppComponent,
-    WelcomeComponent,
-    LoginComponent,
-    ErrorComponent,
-    ArticoliComponent,
-    LogoutComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule,
-    CoreModule
+    CoreModule,
+    ArticoliModule,
+    ErrorsModule,
+    HomeModule,
+    LoginModule,
+    LogoutModule
   ],
   providers: [],
   bootstrap: [AppComponent]
