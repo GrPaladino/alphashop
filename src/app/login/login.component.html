@@ -1,13 +1,25 @@
 <app-jumbotron [Titolo]="titolo" [SottoTitolo]="sottotitolo"></app-jumbotron>
-<div>
-  <label for="userId">User ID:</label>
-  <input type="text" id="userId" name="userId" [(ngModel)]="userId" />
 
-  <label for="password">Password:</label>
-  <input type="password" id="password" name="password" [(ngModel)]="password" />
+<div class="container login-container">
+  <div class="row">
+      <div class="col-md-6 login-form">
+          <h3>Login Form</h3>
+          <div class="form-group">
+              <input type="text" class="form-control"  id="userId" placeholder="Nome Utente" [(ngModel)] = "userId" >
+          </div>
+          <div class="form-group">
+              <input type="password" class="form-control"  id="password" placeholder="Password" [(ngModel)] = "password">
+          </div>
+          <div class="form-group">
+              <button (click) = authenticate() class="btnSubmit">Connetti</button>
+          </div>
+          <div class="form-group">
+                  <a href="#" class="ForgetPwd">Password Dimenticata?</a>
+          </div>
+          <div class="alert alert-danger" role="alert" *ngIf='!autenticato'>
+              {{errorMsg}}
+          </div>
+      </div>
+  </div>
+</div>
 
-  <button (click)="authenticate()" class="btn btn-primary ms-2">Login</button>
-</div>
-<div *ngIf="!autenticato">
-  {{ errorMsg }}
-</div>

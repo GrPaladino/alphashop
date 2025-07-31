@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthappService } from 'src/services/authapp.service';
 
 @Component({
   selector: 'app-login',
@@ -7,7 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  userId: string = 'Graziano';
+  userId: string = '';
   password: string = '';
 
   autenticato: boolean = true;
@@ -16,16 +17,16 @@ export class LoginComponent implements OnInit {
   titolo: string = 'Accesso & Autenticazione';
   sottotitolo: string = 'Inserisci le tue credenziali per accedere al sistema';
 
-  constructor(private route: Router) {}
+  constructor(private route: Router, private BasicAuth: AuthappService) {}
 
   ngOnInit(): void {}
 
   authenticate(): void {
-    if (this.userId === 'Graziano' && this.password === '123') {
+    if (this.BasicAuth.autentica(this.userId, this.password)) {
       this.route.navigate(['/welcome', this.userId]);
       this.autenticato = true;
     } else {
-      this.route.navigate(['/error']);
+      // this.route.navigate(['/error']);
       this.autenticato = false;
     }
   }
