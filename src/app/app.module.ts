@@ -2,6 +2,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ArticoliModule } from './modules/articoli/articoli.module';
 import { BrowserModule } from '@angular/platform-browser';
+import { ColorChangeDirective } from './shared/directives/color-change.directive';
 import { CoreModule } from './core/core.module';
 import { ErrorsModule } from './modules/errors/errors.module';
 import { FormsModule } from '@angular/forms';
@@ -12,7 +13,7 @@ import { NgModule } from '@angular/core';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,

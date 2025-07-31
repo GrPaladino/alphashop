@@ -10,7 +10,7 @@ import { IArticoli } from 'src/app/shared/models/Articoli';
 })
 export class GridArticoliComponent  implements OnInit  {
 
-  @ViewChild('gridView') child : any;
+  @ViewChild('GridView') child : any;
   articoli$ : IArticoli[] = [];
 
   constructor(private articoliService: ArticoliService) { }
@@ -20,9 +20,10 @@ export class GridArticoliComponent  implements OnInit  {
     console.log(this.articoli$);
   }
 
-  handleBuy = (articolo : IArticoli) => {
-    this.child.getValue(); // Call the child method to get the quantity
-    console.log("Cliccato tasto acquista del codice " + articolo.codart);
+  handleEdit = (articolo : IArticoli) => {
+    console.log("Cliccato tasto modifica del codice " + articolo.codart);
+    this.child.getValue();
+
   }
 
   handleDelete = (articolo : IArticoli) => {
@@ -33,8 +34,8 @@ export class GridArticoliComponent  implements OnInit  {
 
   }
 
-  receiveValue = (qtaArt: number) => {
-    console.log("Quantità selezionata: " + qtaArt);
+  receivedValue = (QtaArt: number) => {
+    console.log(QtaArt);
   }
 
 }
