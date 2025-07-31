@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { ArticoliService } from 'src/app/core/services/articoli.service';
 import { IArticoli } from 'src/app/shared/models/Articoli';
@@ -10,6 +10,7 @@ import { IArticoli } from 'src/app/shared/models/Articoli';
 })
 export class GridArticoliComponent  implements OnInit  {
 
+  @ViewChild('gridView') child : any;
   articoli$ : IArticoli[] = [];
 
   constructor(private articoliService: ArticoliService) { }
@@ -19,16 +20,21 @@ export class GridArticoliComponent  implements OnInit  {
     console.log(this.articoli$);
   }
 
-  handleEdit = (codart : string) => {
-    console.log("Cliccato tasto modifica del codice " + codart);
+  handleBuy = (articolo : IArticoli) => {
+    this.child.getValue(); // Call the child method to get the quantity
+    console.log("Cliccato tasto acquista del codice " + articolo.codart);
   }
 
-  handleDelete = (codart : string) => {
-    console.log("Cliccato tasto elimina del codice " + codart);
+  handleDelete = (articolo : IArticoli) => {
+    console.log("Cliccato tasto elimina del codice " + articolo.codart);
 
-    this.articoli$.splice(this.articoli$.findIndex(x => x.codart === codart), 1);
+    this.articoli$.splice(this.articoli$.findIndex(x => x.codart === articolo.codart), 1);
     console.log(this.articoli$);
 
+  }
+
+  receiveValue = (qtaArt: number) => {
+    console.log("Quantità selezionata: " + qtaArt);
   }
 
 }

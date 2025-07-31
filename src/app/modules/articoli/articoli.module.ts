@@ -4,6 +4,7 @@ import { CoreModule } from 'src/app/core/core.module';
 import { NgModule } from '@angular/core';
 import { GridArticoliComponent } from './pages/grid-articoli/grid-articoli.component';
 import { ArticoliCardComponent } from './components/articoli-card/articoli-card.component';
+import { FormControl, FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { ArticoliCardComponent } from './components/articoli-card/articoli-card.
   imports: [
     CommonModule,
     CoreModule,
+    FormsModule
   ]
 })
 export class ArticoliModule { }

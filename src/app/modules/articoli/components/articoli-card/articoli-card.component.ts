@@ -23,11 +23,16 @@ export class ArticoliCardComponent {
   };
 
   @Output()
-  delete = new EventEmitter();
+  delete = new EventEmitter<IArticoli>();
   @Output()
-  edit = new EventEmitter();
+  edit = new EventEmitter<IArticoli>();
+  @Output()
+  sendValue = new EventEmitter<number>();
 
-  editArt = () =>  this.edit.emit(this.articolo.codart);
-  delArt = () => this.delete.emit(this.articolo.codart);
+  qtaArt :number = 0;
+
+  editArt = () =>  this.edit.emit(this.articolo);
+  delArt = () => this.delete.emit(this.articolo);
+  getValue = () => this.sendValue.emit(this.qtaArt);
 
 }
