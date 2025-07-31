@@ -4,15 +4,17 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-welcome',
   templateUrl: './welcome.component.html',
-  styleUrls: ['./welcome.component.css']
+  styleUrls: ['./welcome.component.css'],
 })
 export class WelcomeComponent implements OnInit {
   utente: string = '';
 
-  constructor(private route: ActivatedRoute) { }
+  titolo: string = 'Benvenuti in AlphaShop';
+  sottotitolo: string = 'Visualizza le offerte di oggi';
+
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.utente = this.route.snapshot.params['userId'];
   }
-
 }

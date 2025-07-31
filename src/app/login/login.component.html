@@ -1,7 +1,13 @@
-<label for="userId">User ID:</label>
-<input type="text" id="userId" name="userId" [(ngModel)] ="userId">
+<app-jumbotron [Titolo]="titolo" [SottoTitolo]="sottotitolo"></app-jumbotron>
+<div>
+  <label for="userId">User ID:</label>
+  <input type="text" id="userId" name="userId" [(ngModel)]="userId" />
 
-<label for="password">Password:</label>
-<input type="password" id="password" name="password" [(ngModel)] ="password">
+  <label for="password">Password:</label>
+  <input type="password" id="password" name="password" [(ngModel)]="password" />
 
-<button (click)="authenticate()" class="btn btn-primary ms-2">Login</button>
+  <button (click)="authenticate()" class="btn btn-primary ms-2">Login</button>
+</div>
+<div *ngIf="!autenticato">
+  {{ errorMsg }}
+</div>
