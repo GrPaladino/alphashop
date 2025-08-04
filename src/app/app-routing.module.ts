@@ -7,11 +7,15 @@ import { GridArticoliComponent } from './modules/articoli/pages/grid-articoli/gr
 import { LoginComponent } from './modules/login/pages/login/login.component';
 import { LogoutComponent } from './modules/logout/pages/logout/logout.component';
 import { NgModule } from '@angular/core';
+import { RegistrazioneComponent } from './modules/login/pages/registrazione/registrazione.component';
+import { SettingsComponent } from './modules/login/pages/settings/settings.component';
 import { WelcomeComponent } from './modules/home/pages/welcome/welcome.component';
 
 const routes: Routes = [
   {path:'', component: LoginComponent},
   {path:'login', component: LoginComponent},
+  {path:'signup', component : RegistrazioneComponent},
+  {path:'user/settings', component : SettingsComponent},
   {path:'welcome', component: WelcomeComponent, canActivate:[AuthGuard]},
   {path:'welcome/:userid', component: WelcomeComponent, canActivate:[AuthGuard]},
   {path:'articoli', component : ArticoliComponent, canActivate:[AuthGuard]},

@@ -11,4 +11,6 @@ export class HeaderComponent {
 
   constructor(public BasicAuth: AuthappService) { }
 
+  count : number = 1;
+
 }

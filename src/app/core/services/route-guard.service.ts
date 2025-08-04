@@ -1,22 +1,25 @@
-import { inject, Injectable } from '@angular/core';
-import { AuthappService } from './authapp.service';
 import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from '@angular/router';
+import { Injectable, inject } from '@angular/core';
+
+import { AuthappService } from './authapp.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RouteGuardService {
 
-  constructor(private BasicAuth: AuthappService, private router: Router) { }
+  constructor(private BasicAuth: AuthappService, private route: Router) { }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+
     if (!this.BasicAuth.isLogged()) {
-      console.log('Accesso non consentito');
-      this.router.navigate(['/login'], {
-        queryParams: {nologged: true}});
+      console.log("Accesso NON Consentito");
+
+      this.route.navigate(['login'],{ queryParams: {nologged: true}});
       return false;
-    } else {
-       return true;
+    }
+    else {
+      return true;
     }
   }
 }

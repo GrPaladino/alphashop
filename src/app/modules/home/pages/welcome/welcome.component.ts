@@ -15,9 +15,6 @@ export class WelcomeComponent implements OnInit {
   titolo: string = "Benvenuti in Alphashop";
   sottotitolo: string = "Visualizza le offerte del giorno";
 
-  saluti: string = "";
-  errore: string = "";
-
 
   constructor(private route : ActivatedRoute, private salutiSrv : SalutiDataService) {}
 
@@ -27,22 +24,23 @@ export class WelcomeComponent implements OnInit {
 
   }
 
-  getSaluti = () : void => {
-    this.salutiSrv.getSaluti(this.utente)
-      .subscribe({
-        next: this.handleResponse.bind(this),
-        error: this.handleError.bind(this)
-      });
-  };
+  saluti : string = "";
+  errore : string = "";
 
-  private handleResponse(response: object) {
+  getSaluti = () : void => {
+    this.salutiSrv.getSaluti(this.utente).subscribe({
+      next: this.handleResponse.bind(this),
+      error: this.handleError.bind(this)
+    });
+  }
+
+  handleResponse(response: Object) {
     this.saluti = response.toString();
   }
 
-  private handleError(error: any){
+  handleError(error: any) {
     console.log(error);
     this.errore = error.error.message;
   }
+
 }
-
-

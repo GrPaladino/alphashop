@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { ArticoliService } from 'src/app/core/services/articoli.service';
 import { IArticoli } from 'src/app/shared/models/Articoli';
@@ -10,7 +10,6 @@ import { IArticoli } from 'src/app/shared/models/Articoli';
 })
 export class GridArticoliComponent  implements OnInit  {
 
-  @ViewChild('GridView') child : any;
   articoli$ : IArticoli[] = [];
 
   constructor(private articoliService: ArticoliService) { }
@@ -22,8 +21,6 @@ export class GridArticoliComponent  implements OnInit  {
 
   handleEdit = (articolo : IArticoli) => {
     console.log("Cliccato tasto modifica del codice " + articolo.codart);
-    this.child.getValue();
-
   }
 
   handleDelete = (articolo : IArticoli) => {
@@ -32,10 +29,6 @@ export class GridArticoliComponent  implements OnInit  {
     this.articoli$.splice(this.articoli$.findIndex(x => x.codart === articolo.codart), 1);
     console.log(this.articoli$);
 
-  }
-
-  receivedValue = (QtaArt: number) => {
-    console.log(QtaArt);
   }
 
 }

@@ -1,16 +1,12 @@
-import { ColorChangeDirective } from './directives/color-change.directive';
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+
 
 @NgModule({
-  declarations: [
-    ColorChangeDirective
-  ],
+  declarations: [],
   imports: [
     CommonModule
-  ],
-  exports: [
-    ColorChangeDirective
   ]
 })
 export class SharedModule { }
