@@ -19,6 +19,9 @@
           <div class="alert alert-danger" role="alert" *ngIf='!autenticato'>
               {{errMsg}}
           </div>
+          <div class="alert alert-danger" role="alert" *ngIf='notLogged'>
+              {{errMsg2}}
+          </div>
       </div>
   </div>
 </div>

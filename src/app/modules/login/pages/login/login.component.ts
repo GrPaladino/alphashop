@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { AuthappService } from 'src/app/core/services/authapp.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { map, Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -14,11 +15,21 @@ export class LoginComponent implements OnInit {
   password : string = "";
 
   autenticato : boolean = true;
-  errMsg : string = 'Spiacente, la userid o la password sono errati!';
+  notLogged : boolean = false;
+  filter$: Observable<string | null> = of("");
 
-  constructor(private route: Router, private BasicAuth: AuthappService) {}
+  errMsg : string = 'Spiacente, la userid o la password sono errati!';
+  errMsg2 : string = 'Spiacente, devi autenticarti per poter accedere alla pagina selezionata!';
+
+  constructor(private route: Router, private activeRoute: ActivatedRoute, private BasicAuth: AuthappService) {}
 
   ngOnInit(): void {
+    this.filter$ = this.activeRoute.queryParamMap.pipe(
+      map((params: ParamMap) => params.get('nologged'))
+    );
+
+    this.filter$.subscribe(param => (param) ? this.notLogged = true : this.notLogged = false);
+    
   }
 
   titolo: string = "Accesso & Autenticazione";

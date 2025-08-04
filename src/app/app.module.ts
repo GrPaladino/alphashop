@@ -10,6 +10,7 @@ import { HomeModule } from './modules/home/home.module';
 import { LoginModule } from './modules/login/login.module';
 import { LogoutModule } from './modules/logout/logout.module';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { NgModule } from '@angular/core';
     ErrorsModule,
     HomeModule,
     LoginModule,
-    LogoutModule
+    LogoutModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
