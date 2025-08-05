@@ -1,8 +1,10 @@
 import { ArticoliCardComponent } from './components/articoli-card/articoli-card.component';
 import { ArticoliComponent } from './pages/articoli/articoli.component';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { GridArticoliComponent } from './pages/grid-articoli/grid-articoli.component';
 import { NgModule } from '@angular/core';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
@@ -13,7 +15,9 @@ import { RouterModule } from '@angular/router';
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    NgxPaginationModule,
+    FormsModule,
     //CoreModule,
   ]
 })

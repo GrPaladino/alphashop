@@ -1,6 +1,8 @@
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { Observable, map, of } from 'rxjs';
 
-import { ArticoliService } from 'src/app/core/services/articoli.service';
+import { ArticoliService } from 'src/app/core/services/Data/articoli.service';
 import { IArticoli } from 'src/app/shared/models/Articoli';
 
 @Component({
@@ -10,12 +12,123 @@ import { IArticoli } from 'src/app/shared/models/Articoli';
 })
 export class ArticoliComponent implements OnInit {
 
-ngOnInit(): void {
-  this.articoli = this.articoliService.getArticoli();
-}
+articoli$: IArticoli[]  = []
+errore : string = "";
 
-constructor(private articoliService: ArticoliService) { }
+pagina : number = 1;
+righe : number = 10;
 
-articoli: IArticoli[]  = [];
+filter$: Observable<string | null> = of("");
+filter: string | null = "";
+
+filterType: number = 0;
+
+codArt: string = "";
+
+constructor(private articoliService: ArticoliService, private route: ActivatedRoute) { }
+
+  ngOnInit(): void {
+
+    this.filter$ = this.route.queryParamMap.pipe(
+      map((params: ParamMap) => params.get('filter')),
+    );
+
+    this.filter$.subscribe(param => (this.filter = param));
+
+    if (this.filter) {
+      this.getArticoli(this.filter);
+    }
+  }
+
+  refresh = () => {
+    if (this.filter) {
+      this.getArticoli(this.filter);
+    }
+  }
+
+  getArticoli = (filter : string) => {
+
+    this.articoli$ = [];
+
+    if (this.filterType === 0)
+    {
+      this.articoliService.getArticoliByCode(filter).subscribe({
+        next: this.handleResponse.bind(this),
+        error: this.handleError.bind(this)
+      });
+    }
+    else if (this.filterType === 1)
+    {
+      this.articoliService.getArticoliByDesc(filter).subscribe({
+        next: this.handleResponse.bind(this),
+        error: this.handleError.bind(this)
+      });
+    }
+    else if (this.filterType === 2)
+    {
+      this.articoliService.getArticoliByEan(filter).subscribe({
+        next: this.handleResponse.bind(this),
+        error: this.handleError.bind(this)
+      });
+    }
+
+  }
+
+  handleResponse = (response : any) => {
+
+    if (this.filterType === 0 || this.filterType === 2)
+    {
+      let newArray : IArticoli[] = [...this.articoli$, response];
+      this.articoli$ = newArray;
+    }
+    else
+    {
+      this.articoli$ = response;
+    }
+
+    this.filterType = 0;
+  }
+
+  handleError = (error: any) => {
+
+    if (this.filter && this.filterType === 0) {
+      this.filterType = 1;
+      this.getArticoli(this.filter);
+    }
+    else if (this.filter && this.filterType === 1) {
+      this.filterType = 2;
+      this.getArticoli(this.filter);
+    }
+    else {
+      this.errore = error.error.message;
+
+      this.filterType = 0;
+      console.log(this.errore);
+    }
+
+  }
+
+  elimina = (codArt : string) => {
+    this.errore = "";
+    this.codArt = codArt;
+    console.log("Eliminazione articolo: " + codArt);
+
+    this.articoliService.delArtByCodArt(codArt).subscribe({
+      next: this.handleOkDelete.bind(this),
+      error: this.handleErrDelete.bind(this)
+    });
+  }
+
+  handleOkDelete = (response: any) => {
+    console.log(response);
+
+    this.articoli$ = this.articoli$.filter(item => item.codart !== this.codArt);
+    this.codArt = "";
+  }
+
+  handleErrDelete = (error: any) => {
+    console.log(error);
+    this.errore = error.error.message;
+  }
 
 }

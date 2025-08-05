@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ArticoliService } from 'src/app/core/services/articoli.service';
+import { ArticoliService } from 'src/app/core/services/Data/articoli.service';
 import { IArticoli } from 'src/app/shared/models/Articoli';
 
 @Component({
@@ -11,12 +11,23 @@ import { IArticoli } from 'src/app/shared/models/Articoli';
 export class GridArticoliComponent  implements OnInit  {
 
   articoli$ : IArticoli[] = [];
+  errore : string = "";
 
   constructor(private articoliService: ArticoliService) { }
 
   ngOnInit(): void {
-    this.articoli$ = this.articoliService.getArticoli();
-    console.log(this.articoli$);
+    this.articoliService.getArticoliByDesc('Barilla').subscribe({
+      next: this.handleResponse.bind(this),
+      error: this.handleError.bind(this)
+    });
+  }
+
+  handleResponse(response : IArticoli[]) {
+    this.articoli$ = response;
+  }
+
+  handleError(error: Object) {
+    this.errore = error.toString();
   }
 
   handleEdit = (articolo : IArticoli) => {

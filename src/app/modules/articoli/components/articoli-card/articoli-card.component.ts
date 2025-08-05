@@ -19,7 +19,8 @@ export class ArticoliCardComponent {
     prezzo: 0,
     active: true,
     data: new Date(),
-    imageUrl: ''
+    imageUrl: '',
+    status: ''
   };
 
   @Output('elimina-card')

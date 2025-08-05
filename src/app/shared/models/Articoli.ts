@@ -4,6 +4,7 @@ export interface IArticoli {
   um: string
   pzcart: number
   peso: number
+  status: string
   prezzo: number
   active: boolean
   data: Date
