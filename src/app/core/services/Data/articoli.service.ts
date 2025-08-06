@@ -1,5 +1,7 @@
+import { IArticoli, ICat, IIva } from 'src/app/shared/models/Articoli';
+
 import { HttpClient } from '@angular/common/http';
-import { IArticoli } from 'src/app/shared/models/Articoli';
+import { IArticolo } from 'src/app/shared/models/Articolo';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
 
@@ -27,6 +29,7 @@ export class ArticoliService {
     return this.httpClient.get<IArticoli>(`http://${this.server}:${this.port}/api/articoli/cerca/codice/${codart}`)
     .pipe(
       map(response => {
+        response.idStatoArt = response.status
         response.status = this.getDesStatoArt(response.status)
         return response;
       })
@@ -37,6 +40,7 @@ export class ArticoliService {
     return this.httpClient.get<IArticoli>(`http://${this.server}:${this.port}/api/articoli/cerca/barcode/${barcode}`)
     .pipe(
       map(response => {
+        response.idStatoArt = response.status
         response.status = this.getDesStatoArt(response.status)
         return response;
       })
@@ -53,7 +57,14 @@ export class ArticoliService {
       return 'Eliminato'
   }
 
-  delArtByCodArt = (codArt: string) => {
-    return this.httpClient.delete(`http://${this.server}:${this.port}/api/articoli/elimina/${codArt}`);
-  }
+  delArticoloByCodArt = (codart: string) =>
+    this.httpClient.delete(`http://${this.server}:${this.port}/api/articoli/elimina/${codart}`);
+
+  getIva = () => this.httpClient.get<IIva[]>(`http://${this.server}:${this.port}/api/iva`);
+
+  getCat = () => this.httpClient.get<ICat[]>(`http://${this.server}:${this.port}/api/cat`);
+
+  updArticolo = (articolo: IArticolo) =>
+    this.httpClient.put(`http://${this.server}:${this.port}/api/articoli/modifica`, articolo);
+
 }

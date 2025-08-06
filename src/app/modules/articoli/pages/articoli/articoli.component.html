@@ -82,7 +82,7 @@
                 </span>
               </td>
               <td class="text-end">
-                <button (click)="elimina(articolo.codart)" class="btn btn-light text-danger">Elimina</button>
+                <button (click)="Elimina(articolo.codart)"  class="btn btn-light text-danger">Elimina</button>
 								<div class="dropdown">
 									<button href="#" data-bs-toggle="dropdown" class="btn btn-light">
                     <i class="material-icons md-more_horiz"></i>
@@ -90,7 +90,7 @@
 									<ul class="dropdown-menu">
 										<li><a class="dropdown-item" href="#">Dettaglio</a></li>
 										<li><a class="dropdown-item" href="#">Info</a></li>
-										<li><a class="dropdown-item" href="#">Modifica</a></li>
+										<li><a class="dropdown-item" (click)="Modifica(articolo.codart)">Modifica</a></li>
 									</ul>
 								</div> <!-- dropdown //end -->
 							</td>

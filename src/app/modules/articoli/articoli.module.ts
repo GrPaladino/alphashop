@@ -6,12 +6,14 @@ import { GridArticoliComponent } from './pages/grid-articoli/grid-articoli.compo
 import { NgModule } from '@angular/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { RouterModule } from '@angular/router';
+import { GestartComponent } from './pages/gestart/gestart.component';
 
 @NgModule({
   declarations: [
     ArticoliComponent,
     GridArticoliComponent,
     ArticoliCardComponent,
+    GestartComponent,
   ],
   imports: [
     CommonModule,

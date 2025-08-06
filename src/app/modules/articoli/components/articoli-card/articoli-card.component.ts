@@ -17,10 +17,13 @@ export class ArticoliCardComponent {
     pzcart: 0,
     peso: 0,
     prezzo: 0,
-    active: true,
     data: new Date(),
     imageUrl: '',
-    status: ''
+    status: '',
+    idStatoArt: "1",
+    iva: {idIva: 0, descrizione: '', aliquota: 0 },
+    famAssort: {id : -1, descrizione: ''},
+    barcode : []
   };
 
   @Output('elimina-card')

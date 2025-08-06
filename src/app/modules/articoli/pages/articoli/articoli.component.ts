@@ -1,8 +1,8 @@
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Observable, map, of } from 'rxjs';
 
-import { ArticoliService } from 'src/app/core/services/Data/articoli.service';
+import { ArticoliService } from 'src/app/core/services/data/articoli.service';
 import { IArticoli } from 'src/app/shared/models/Articoli';
 
 @Component({
@@ -23,9 +23,12 @@ filter: string | null = "";
 
 filterType: number = 0;
 
-codArt: string = "";
+codart: string = "";
 
-constructor(private articoliService: ArticoliService, private route: ActivatedRoute) { }
+constructor(
+  private articoliService: ArticoliService,
+  private route: ActivatedRoute,
+  private router: Router) { }
 
   ngOnInit(): void {
 
@@ -108,27 +111,36 @@ constructor(private articoliService: ArticoliService, private route: ActivatedRo
 
   }
 
-  elimina = (codArt : string) => {
+  Elimina = (CodArt: string) => {
     this.errore = "";
-    this.codArt = codArt;
-    console.log("Eliminazione articolo: " + codArt);
 
-    this.articoliService.delArtByCodArt(codArt).subscribe({
+    this.codart = CodArt;
+    console.log(`Eliminazione articolo ${CodArt}`);
+
+    this.articoliService.delArticoloByCodArt(CodArt).subscribe({
       next: this.handleOkDelete.bind(this),
       error: this.handleErrDelete.bind(this)
-    });
+      }
+    )
+
   }
 
-  handleOkDelete = (response: any) => {
+  Modifica = (CodArt: string) => {
+    console.log(`Modifica articolo ${CodArt}`);
+
+    this.router.navigate(['gestart',CodArt]);
+  }
+
+  handleOkDelete(response: any) {
     console.log(response);
 
-    this.articoli$ = this.articoli$.filter(item => item.codart !== this.codArt);
-    this.codArt = "";
+    this.articoli$ = this.articoli$.filter(item => item.codart !== this.codart);
+    this.codart = "";
+
   }
 
-  handleErrDelete = (error: any) => {
+  handleErrDelete(error: any) {
     console.log(error);
     this.errore = error.error.message;
   }
-
 }

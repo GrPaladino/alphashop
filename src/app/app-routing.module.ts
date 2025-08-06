@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ArticoliComponent } from './modules/articoli/pages/articoli/articoli.component';
 import { AuthGuard } from 'src/app/core/services/route-guard.service';
 import { ErrorComponent } from './modules/errors/pages/error/error.component';
+import { GestartComponent } from './modules/articoli/pages/gestart/gestart.component';
 import { GridArticoliComponent } from './modules/articoli/pages/grid-articoli/grid-articoli.component';
 import { LoginComponent } from './modules/login/pages/login/login.component';
 import { LogoutComponent } from './modules/logout/pages/logout/logout.component';
@@ -20,6 +21,7 @@ const routes: Routes = [
   {path:'welcome/:userid', component: WelcomeComponent, canActivate:[AuthGuard]},
   {path:'articoli', component : ArticoliComponent, canActivate:[AuthGuard]},
   {path:'articoli/grid', component : GridArticoliComponent, canActivate:[AuthGuard]},
+  {path:'gestart/:codart', component : GestartComponent, canActivate:[AuthGuard]},
   {path:'logout', component : LogoutComponent},
   {path:'**', component: ErrorComponent},
 ];

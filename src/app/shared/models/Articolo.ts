@@ -1,17 +1,15 @@
-export interface IArticoli {
-  codart: string
+export interface IArticolo {
+  codArt: string
   descrizione: string
   um: string
-  pzcart: number
-  peso: number
+  pzCart: number
+  pesoNetto: number
   idStatoArt: string
-  status: string
-  prezzo: number
-  data: Date
-  imageUrl: string
-  famAssort: ICat
-  iva: IIva
+  dataCreaz: Date
   barcode: IBarcode[]
+  ingredienti: IIngredienti
+  iva: IIva
+  famAssort: ICat
 }
 
 export interface IIva {
@@ -31,4 +29,11 @@ export interface IBarcode {
   barcode: string,
   idTipoArt: string
 }
+
+export interface IIngredienti {
+  codArt: string,
+  info: string
+}
+
+
 
