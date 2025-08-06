@@ -4,6 +4,7 @@ import { IArticoli, ICat, IIva } from 'src/app/shared/models/Articoli';
 import { ActivatedRoute } from '@angular/router';
 import { ArticoliService } from 'src/app/core/services/data/articoli.service';
 import { IArticolo } from 'src/app/shared/models/Articolo';
+import { ApiMsg } from 'src/app/shared/models/ApiMsg';
 
 @Component({
   selector: 'app-gestart',
@@ -37,6 +38,8 @@ constructor(
 
   Iva: IIva[] = [];
   Cat: ICat[] = [];
+  apiMsg!: ApiMsg;
+  conferma: string = '';
 
   ngOnInit(): void {
     this.codart =  this.route.snapshot.params['codart'];
@@ -74,12 +77,14 @@ constructor(
 
   salva = () => {
     console.log(this.articolo);
+    this.conferma = '';
 
     var articolo = this.transformData(this.articolo);
 
     this.articoliService.updArticolo(articolo).subscribe(
       response => {
-        console.log(response);
+        this.apiMsg = response;
+        this.conferma = this.apiMsg.message;
       }
     )
   }

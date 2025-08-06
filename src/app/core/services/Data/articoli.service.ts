@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { IArticolo } from 'src/app/shared/models/Articolo';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
+import { ApiMsg } from 'src/app/shared/models/ApiMsg';
 
 @Injectable({
   providedIn: 'root'
@@ -65,6 +66,6 @@ export class ArticoliService {
   getCat = () => this.httpClient.get<ICat[]>(`http://${this.server}:${this.port}/api/cat`);
 
   updArticolo = (articolo: IArticolo) =>
-    this.httpClient.put(`http://${this.server}:${this.port}/api/articoli/modifica`, articolo);
+    this.httpClient.put<ApiMsg>(`http://${this.server}:${this.port}/api/articoli/modifica`, articolo);
 
 }

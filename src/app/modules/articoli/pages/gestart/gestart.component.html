@@ -98,6 +98,10 @@
     <input class="form-control" type="file">
   </div>
 
+  <div class="alert alert-success" *ngIf="conferma">
+    {{conferma}}
+  </div>
+
   <br>
   <button class="btn btn-primary" (click)="salva()">Salva Articolo</button>
 
