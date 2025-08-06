@@ -3,20 +3,31 @@
   <div class="content-header">
   <h2 class="content-title">{{title}}</h2>
   <div>
-    <a href="#" class="btn btn-outline-danger"> × Annulla</a>
+    <button class="btn btn-outline-danger" (click)="abort()"> × Annulla</button>
   </div>
 </div>
 
 <div class="card mb-4">
     <div class="card-body">
 
-  <!-- <form> -->
+      <div class="alert alert-success" *ngIf="conferma">
+        {{conferma}}
+      </div>
+      <div class="alert alert-danger" *ngIf="errore">
+        {{errore}}
+      </div>
+
+  <form  (ngSubmit)="artForm.valid && salva()" #artForm="ngForm">
 
   <!-- Codice, Barcode -->
   <div class="row gx-2">
     <div class="col-sm-6 mb-3">
       <label for="codArt" class="form-label">Codice Articolo:</label>
-      <input id="codArt"  type="text" placeholder="" class="form-control" [(ngModel)]="articolo.codart">
+      <input id="codArt"  type="text" placeholder="" class="form-control" [(ngModel)]="articolo.codart" 
+      required minLength="5" maxLength="30" #codice="ngModel" name="codArt">
+      <span style="color:red" *ngIf="codice.invalid && (codice.dirty || codice.touched)">
+        Il codice articolo deve essere compreso tra 5 e 30 caratteri
+      </span>
     </div>
     <div class="col-sm-6 mb-3">
       <label for="ean" class="form-label">Barcode:</label>
@@ -29,14 +40,18 @@
   <!--Descrizione -->
   <div class="mb-4">
     <label class="form-label">Descrizione Articolo</label>
-    <textarea placeholder="" class="form-control" rows="2" [(ngModel)]="articolo.descrizione"></textarea>
+    <textarea placeholder="" class="form-control" rows="2" [(ngModel)]="articolo.descrizione"
+    required minlength="6" maxlength="80" #desart="ngModel" name="desart"></textarea>
+    <span style="color:red" *ngIf="desart.invalid && (desart.dirty || desart.touched)">
+      La descrizione deve essere compresa tra 6 e 80 caratteri
+    </span>
   </div>
 
   <!--Unità di misura, Iva -->
   <div class="row gx-2">
     <div class="col-sm-6 mb-3">
       <label class="form-label">Unità di Misura</label>
-      <select class="form-select" [(ngModel)]="articolo.um">
+      <select class="form-select" [(ngModel)]="articolo.um" name="um">
         <option value="PZ"> Pezzi </option>
         <option value="LT"> Litri </option>
         <option value="KG"> Kilogrammi </option>
@@ -44,7 +59,8 @@
     </div>
     <div class="col-sm-6 mb-3">
       <label class="form-label">Iva</label>
-      <select class="form-select" [(ngModel)]="articolo.iva.idIva">
+      <select class="form-select" [(ngModel)]="articolo.iva.idIva" name="iva">
+        <option value="-1" class="text-primary font-weight-bolder">--- Seleziona Iva ---</option>
         <option [ngValue]="iva.idIva" *ngFor="let iva of Iva">{{iva.descrizione}}</option>
       </select>
     </div>
@@ -55,10 +71,19 @@
         <label class="form-label">Pezzi Per Cartone: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Peso Netto:</label>
           <div class="row gx-2">
           <div class="col-3">
-      <input placeholder="Pezzi" type="text" class="form-control" [(ngModel)]="articolo.pzcart">
+      <input placeholder="Pezzi" type="text" class="form-control" [(ngModel)]="articolo.pzcart"
+      required min="1" max="99" maxlength="3" #pzcart="ngModel" name="pzcart">
+      <span style="color:red" *ngIf="pzcart.errors?.['required']">Inserisci i pezzi x cartone</span>
+      <span style="color:red" *ngIf="pzcart.errors?.['min']">Valore minimo 1 richiesto</span>
+      <span style="color:red" *ngIf="pzcart.errors?.['max']">Valore massimo 99 consentito</span>
+      <span style="color:red" *ngIf="pzcart.errors?.['maxlength']">Massimo 3 caratteri consentiti</span>
           </div>
           <div class="col-3">
-            <input placeholder="Peso" type="text" class="form-control" [(ngModel)]="articolo.peso">
+            <input placeholder="Peso" type="text" class="form-control" [(ngModel)]="articolo.peso"
+            required min="0.01" max="500" maxlength="6" #peso="ngModel" name="peso">
+            <span style="color:red" *ngIf="peso.invalid && (peso.dirty || peso.touched)">
+              Il peso dell'articolo deve essere compreso tra 0.01 e 500
+            </span>
           </div>
           <div class="col-4">
       <input placeholder="Prezzo" type="text" class="form-control">
@@ -77,13 +102,13 @@
   <div class="row gx-2">
     <div class="col-sm-6 mb-3">
       <label class="form-label">Categoria:</label>
-      <select class="form-select" [(ngModel)]="articolo.famAssort.id">
+      <select class="form-select" [(ngModel)]="articolo.famAssort.id" name="famassort">
         <option [ngValue]="categoria.id" *ngFor="let categoria of Cat">{{categoria.id}} - {{categoria.descrizione}}</option>
       </select>
     </div>
       <div class="col-sm-6 mb-3">
       <label class="form-label">Stato:</label>
-      <select class="form-select" [(ngModel)]="articolo.idStatoArt">
+      <select class="form-select" [(ngModel)]="articolo.idStatoArt" name="idstato">
         <option value=1> Attivo </option>
         <option value=1> Attivo </option>
         <option value=2> Sospeso </option>
@@ -98,14 +123,10 @@
     <input class="form-control" type="file">
   </div>
 
-  <div class="alert alert-success" *ngIf="conferma">
-    {{conferma}}
-  </div>
-
   <br>
-  <button class="btn btn-primary" (click)="salva()">Salva Articolo</button>
+  <button type="submit" class="btn btn-primary" [disabled]="artForm.invalid">Salva Articolo</button>
 
-  <!-- </form> -->
+  </form>
 
   </div>
 </div>

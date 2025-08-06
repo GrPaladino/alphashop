@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { IArticoli, ICat, IIva } from 'src/app/shared/models/Articoli';
 
-import { ActivatedRoute } from '@angular/router';
-import { ArticoliService } from 'src/app/core/services/data/articoli.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IArticolo } from 'src/app/shared/models/Articolo';
 import { ApiMsg } from 'src/app/shared/models/ApiMsg';
+import { ArticoliService } from 'src/app/core/services/Data/articoli.service';
+import { query } from '@angular/animations';
 
 @Component({
   selector: 'app-gestart',
@@ -13,7 +14,8 @@ import { ApiMsg } from 'src/app/shared/models/ApiMsg';
 })
 export class GestartComponent  implements OnInit {
 
-title : string = "Modifica Articoli";
+title : string = "";
+isModifica: boolean = false;
 codart: string = '';
 articolo: IArticoli  = {
   codart: '',
@@ -26,7 +28,7 @@ articolo: IArticoli  = {
   imageUrl: '',
   status: '',
   idStatoArt: "1",
-  iva: {idIva: 0, descrizione: '', aliquota: 0 },
+  iva: {idIva: -1, descrizione: '', aliquota: 0 },
   famAssort: {id : -1, descrizione: ''},
   barcode : []
 };
@@ -34,21 +36,32 @@ articolo: IArticoli  = {
 
 constructor(
   private route: ActivatedRoute,
-  private articoliService: ArticoliService) { }
+  private articoliService: ArticoliService,
+  private router: Router) { }
 
   Iva: IIva[] = [];
   Cat: ICat[] = [];
   apiMsg!: ApiMsg;
   conferma: string = '';
+  errore: string = '';
 
   ngOnInit(): void {
     this.codart =  this.route.snapshot.params['codart'];
     console.log("Selezionato articolo " + this.codart);
 
-    this.articoliService.getArticoliByCode(this.codart).subscribe({
-      next: this.handleResponse.bind(this),
-      error: this.handleError.bind(this)
-    });
+    if (this.codart) {
+      this.isModifica = true;
+      this.title = "Modifica Articolo";
+
+      this.articoliService.getArticoliByCode(this.codart).subscribe({
+        next: this.handleResponse.bind(this),
+        error: this.handleError.bind(this)
+      });
+    } else {
+      this.isModifica = false;
+      this.title = "Creazione Articolo";
+    }
+
 
     this.articoliService.getIva().subscribe(
       response => {
@@ -78,15 +91,37 @@ constructor(
   salva = () => {
     console.log(this.articolo);
     this.conferma = '';
+    this.errore = '';
 
     var articolo = this.transformData(this.articolo);
 
-    this.articoliService.updArticolo(articolo).subscribe(
-      response => {
-        this.apiMsg = response;
-        this.conferma = this.apiMsg.message;
-      }
-    )
+    if (this.isModifica) {
+  
+      this.articoliService.updArticolo(articolo).subscribe(
+        {
+          next: (response) => {
+            this.apiMsg = response;
+            this.conferma = this.apiMsg.message;
+          },
+          error: (error) => {
+            this.apiMsg = error.error;
+            this.errore = this.apiMsg.message;
+        }
+      });
+    } else {
+      this.articoliService.insArticolo(articolo).subscribe(
+        {
+          next: (response) => {
+            this.apiMsg = response;
+            this.conferma = this.apiMsg.message;
+          },
+          error: (error) => {
+            this.apiMsg = error.error;
+            this.errore = this.apiMsg.message;
+        }
+      });
+    }
+
   }
 
   transformData(articoloDto: IArticoli): IArticolo {
@@ -105,5 +140,13 @@ constructor(
       barcode : articoloDto.barcode
     };
   }
+
+  abort = () => {
+    if (this.isModifica) {
+    this.router.navigate(['/articoli'], {queryParams: {filter: this.codart}});
+  } else {
+    this.router.navigate(['/articoli']);
+  }
+}
 
 }

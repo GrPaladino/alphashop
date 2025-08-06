@@ -2,8 +2,8 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Observable, map, of } from 'rxjs';
 
-import { ArticoliService } from 'src/app/core/services/data/articoli.service';
 import { IArticoli } from 'src/app/shared/models/Articoli';
+import { ArticoliService } from 'src/app/core/services/Data/articoli.service';
 
 @Component({
   selector: 'app-articoli',

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ArticoliService } from 'src/app/core/services/data/articoli.service';
+import { ArticoliService } from 'src/app/core/services/Data/articoli.service';
 import { IArticoli } from 'src/app/shared/models/Articoli';
 
 @Component({

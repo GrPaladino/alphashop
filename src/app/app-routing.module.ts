@@ -22,6 +22,7 @@ const routes: Routes = [
   {path:'articoli', component : ArticoliComponent, canActivate:[AuthGuard]},
   {path:'articoli/grid', component : GridArticoliComponent, canActivate:[AuthGuard]},
   {path:'gestart/:codart', component : GestartComponent, canActivate:[AuthGuard]},
+  {path:'gestart', component : GestartComponent, canActivate:[AuthGuard]},
   {path:'logout', component : LogoutComponent},
   {path:'**', component: ErrorComponent},
 ];

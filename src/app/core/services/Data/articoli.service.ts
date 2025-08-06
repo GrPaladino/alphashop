@@ -68,4 +68,7 @@ export class ArticoliService {
   updArticolo = (articolo: IArticolo) =>
     this.httpClient.put<ApiMsg>(`http://${this.server}:${this.port}/api/articoli/modifica`, articolo);
 
+  insArticolo = (articolo: IArticolo) =>
+    this.httpClient.post<ApiMsg>(`http://${this.server}:${this.port}/api/articoli/inserisci`, articolo);
+
 }
