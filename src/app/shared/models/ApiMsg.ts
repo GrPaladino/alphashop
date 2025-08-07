@@ -1,3 +1,3 @@
 export interface ApiMsg {
-    message: string;
+  message: string
 }

@@ -7,7 +7,7 @@
         <i class="material-icons md-grid_on"></i>
         Grid View
       </a>
-      <button class="btn btn-primary newart" (click)="Modifica('')">
+      <button class="btn btn-primary newart" (click)="Modifica('')" >
         <i class="material-icons md-plus"></i>
         Nuovo
       </button>
@@ -82,7 +82,8 @@
                 </span>
               </td>
               <td class="text-end">
-                <button (click)="Elimina(articolo.codart)"  class="btn btn-light text-danger">Elimina</button>
+                <button *ngIf="isAdmin" (click)="Elimina(articolo.codart)" class="btn btn-light text-danger">Elimina</button>
+                <button *ngIf="!isAdmin" (click)="Elimina(articolo.codart)" disabled class="btn btn-light text-danger">Elimina</button>
 								<div class="dropdown">
 									<button href="#" data-bs-toggle="dropdown" class="btn btn-light">
                     <i class="material-icons md-more_horiz"></i>
@@ -98,6 +99,7 @@
             </tr>
           </tbody>
         </table>
+        <app-spinner></app-spinner>
 
       <!-- Paginazione -->
       <nav class="float-end mt-3" aria-label="Page navigation">

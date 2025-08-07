@@ -1,20 +1,34 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+import { ApiMsg } from 'src/app/shared/models/ApiMsg';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment.development';
+import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthappService {
 
-  constructor() { }
+  server : string = environment.server;
+  port : string = environment.port;
 
-  autentica = (userid: string, password: string) : boolean => {
-    var retVal = (userid === 'Nicola' && password === '123_Stella') ? true : false;
+  constructor(private httpClient : HttpClient) { }
 
-    if (retVal) {
-      sessionStorage.setItem("Utente",userid);
-    }
+  autenticaService = (userid: string, password: string) => {
 
-    return retVal;
+    let AuthString : string = "Basic " + window.btoa(userid + ":" + password);
+    let headers = new HttpHeaders({Authorization:  AuthString});
+
+    return this.httpClient.get<ApiMsg>(`http://${this.server}:${this.port}/api/articoli/test`,{headers}).pipe(
+      map(
+        data => {
+          sessionStorage.setItem("Utente",userid);
+          sessionStorage.setItem("AuthToken", AuthString);
+          return data;
+        }
+      )
+    )
   }
 
   loggedUser = (): string | null => (sessionStorage.getItem("Utente")) ? sessionStorage.getItem("Utente") : "";

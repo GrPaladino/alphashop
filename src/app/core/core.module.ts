@@ -1,11 +1,12 @@
+import { AvatarComponent } from './avatar/avatar/avatar.component';
 import { CommonModule } from '@angular/common';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { JumbotronComponent } from './jumbotron/jumbotron.component';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { NotificationComponent } from './notification/notification/notification.component';
-import { AvatarComponent } from './avatar/avatar/avatar.component';
+import { RouterModule } from '@angular/router';
+import { SpinnerComponent } from './spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { AvatarComponent } from './avatar/avatar/avatar.component';
     FooterComponent,
     JumbotronComponent,
     NotificationComponent,
-    AvatarComponent
+    AvatarComponent,
+    SpinnerComponent
   ],
   imports: [
     CommonModule,
@@ -22,7 +24,8 @@ import { AvatarComponent } from './avatar/avatar/avatar.component';
   exports: [
     HeaderComponent,
     FooterComponent,
-    JumbotronComponent
+    JumbotronComponent,
+    SpinnerComponent
   ]
 })
 export class CoreModule { }

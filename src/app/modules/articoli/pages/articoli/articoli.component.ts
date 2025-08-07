@@ -2,8 +2,9 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Observable, map, of } from 'rxjs';
 
+import { ArticoliService } from 'src/app/core/services/data/articoli.service';
 import { IArticoli } from 'src/app/shared/models/Articoli';
-import { ArticoliService } from 'src/app/core/services/Data/articoli.service';
+import { JwtRolesService } from 'src/app/core/services/jwt-roles.service';
 
 @Component({
   selector: 'app-articoli',
@@ -15,6 +16,7 @@ export class ArticoliComponent implements OnInit {
 articoli$: IArticoli[]  = []
 errore : string = "";
 
+
 pagina : number = 1;
 righe : number = 10;
 
@@ -24,6 +26,7 @@ filter: string | null = "";
 filterType: number = 0;
 
 codart: string = "";
+isAdmin: boolean = true;
 
 constructor(
   private articoliService: ArticoliService,
@@ -31,6 +34,8 @@ constructor(
   private router: Router) { }
 
   ngOnInit(): void {
+
+    //this.isAdmin =  (this.roles.getRoles().indexOf(Ruoli.amministratore) > -1) ? true : false;
 
     this.filter$ = this.route.queryParamMap.pipe(
       map((params: ParamMap) => params.get('filter')),
@@ -103,10 +108,8 @@ constructor(
       this.getArticoli(this.filter);
     }
     else {
-      this.errore = error.error.message;
-
+      this.errore = error;
       this.filterType = 0;
-      console.log(this.errore);
     }
 
   }
@@ -140,7 +143,6 @@ constructor(
   }
 
   handleErrDelete(error: any) {
-    console.log(error);
-    this.errore = error.error.message;
+    this.errore = error;
   }
 }

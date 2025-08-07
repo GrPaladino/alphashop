@@ -1,11 +1,10 @@
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { IArticoli, ICat, IIva } from 'src/app/shared/models/Articoli';
 
-import { ActivatedRoute, Router } from '@angular/router';
-import { IArticolo } from 'src/app/shared/models/Articolo';
 import { ApiMsg } from 'src/app/shared/models/ApiMsg';
-import { ArticoliService } from 'src/app/core/services/Data/articoli.service';
-import { query } from '@angular/animations';
+import { ArticoliService } from 'src/app/core/services/data/articoli.service';
+import { IArticolo } from 'src/app/shared/models/Articolo';
 
 @Component({
   selector: 'app-gestart',
@@ -15,12 +14,13 @@ import { query } from '@angular/animations';
 export class GestartComponent  implements OnInit {
 
 title : string = "";
-isModifica: boolean = false;
+isModifica : boolean = false;
+
 codart: string = '';
 articolo: IArticoli  = {
   codart: '',
   descrizione: '',
-  um: '',
+  um: 'PZ',
   pzcart: 0,
   peso: 0,
   prezzo: 0,
@@ -41,7 +41,8 @@ constructor(
 
   Iva: IIva[] = [];
   Cat: ICat[] = [];
-  apiMsg!: ApiMsg;
+
+  apiMsg! : ApiMsg;
   conferma: string = '';
   errore: string = '';
 
@@ -49,17 +50,19 @@ constructor(
     this.codart =  this.route.snapshot.params['codart'];
     console.log("Selezionato articolo " + this.codart);
 
-    if (this.codart) {
-      this.isModifica = true;
+    if (this.codart)
+    {
       this.title = "Modifica Articolo";
+      this.isModifica = true;
 
       this.articoliService.getArticoliByCode(this.codart).subscribe({
         next: this.handleResponse.bind(this),
         error: this.handleError.bind(this)
       });
-    } else {
-      this.isModifica = false;
+    }
+    else {
       this.title = "Creazione Articolo";
+      this.isModifica = false;
     }
 
 
@@ -90,38 +93,35 @@ constructor(
 
   salva = () => {
     console.log(this.articolo);
-    this.conferma = '';
-    this.errore = '';
+
+    this.conferma = "";
+    this.errore = "";
 
     var articolo = this.transformData(this.articolo);
 
-    if (this.isModifica) {
-  
-      this.articoliService.updArticolo(articolo).subscribe(
-        {
-          next: (response) => {
-            this.apiMsg = response;
-            this.conferma = this.apiMsg.message;
-          },
-          error: (error) => {
-            this.apiMsg = error.error;
-            this.errore = this.apiMsg.message;
-        }
-      });
-    } else {
-      this.articoliService.insArticolo(articolo).subscribe(
-        {
-          next: (response) => {
-            this.apiMsg = response;
-            this.conferma = this.apiMsg.message;
-          },
-          error: (error) => {
-            this.apiMsg = error.error;
-            this.errore = this.apiMsg.message;
+    if (this.isModifica)
+    {
+      this.articoliService.updArticolo(articolo).subscribe({
+        next: (response) => {
+          this.apiMsg = response;
+          this.conferma = this.apiMsg.message;
+        },
+        error: (error) => {
+          this.errore = error;
         }
       });
     }
-
+    else {
+      this.articoliService.insArticolo(articolo).subscribe({
+        next: (response) => {
+          this.apiMsg = response;
+          this.conferma = this.apiMsg.message;
+        },
+        error: (error) => {
+          this.errore = error;
+        }
+      });
+    }
   }
 
   transformData(articoloDto: IArticoli): IArticolo {
@@ -142,11 +142,12 @@ constructor(
   }
 
   abort = () => {
-    if (this.isModifica) {
-    this.router.navigate(['/articoli'], {queryParams: {filter: this.codart}});
-  } else {
-    this.router.navigate(['/articoli']);
+
+    if (this.isModifica)
+      this.router.navigate(['articoli'], {queryParams: {filter : this.codart}});
+    else
+      this.router.navigate(['articoli']);
+
   }
-}
 
 }

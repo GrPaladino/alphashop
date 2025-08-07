@@ -1,18 +1,19 @@
 import { IArticoli, ICat, IIva } from 'src/app/shared/models/Articoli';
 
+import { ApiMsg } from 'src/app/shared/models/ApiMsg';
 import { HttpClient } from '@angular/common/http';
 import { IArticolo } from 'src/app/shared/models/Articolo';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment.development';
 import { map } from 'rxjs';
-import { ApiMsg } from 'src/app/shared/models/ApiMsg';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ArticoliService {
 
-  server : string = "localhost";
-  port : string = "5051";
+  server : string = environment.server;
+  port : string = environment.port;
 
   constructor(private httpClient : HttpClient) { }
 
